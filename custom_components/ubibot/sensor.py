@@ -100,17 +100,17 @@ class UbibotSensor(SensorEntity):
 class UbibotData:
     """Ubibot data object."""
 
-    URL = "https://api.ubibot.io/channels/{0}?account_key={1}"
+    URL = "https://webapi.ubibot.com/channels/{0}?api_key={1}"
 
-    def __init__(self, account_key, channel, scan_interval):
+    def __init__(self, api_key, channel, scan_interval):
         """
         Initialize the UniFi Ubibot data object.
 
-        :param account_key: Ubibot Account Key
+        :param api_key: Ubibot API Key for this channel
         :param channel: Channel ID
         :param scan_interval: refresh interval in seconds
         """
-        self.account_key = account_key
+        self.api_key = api_key
         self.channel = channel
         self.scan_interval = scan_interval
         self.last_refresh = datetime(2000, 1, 1)
@@ -126,7 +126,7 @@ class UbibotData:
         ):
             return
         try:
-            url = UbibotData.URL.format(self.channel, self.account_key)
+            url = UbibotData.URL.format(self.channel, self.api_key)
             r = requests.get(url)
             if r.status_code == 200:
                 self.data = json.loads(r.text)
